@@ -1,5 +1,10 @@
+from flask import flask
+import threading
 import requests
 import time
+
+app = Flask(__name__)
+
 urls = [
     'https://rowingstatsflask.onrender.com',
     'https://listedbuildings.onrender.com'
@@ -17,5 +22,7 @@ def keepAlive():
                 print(f'Error pinging {url}: {e}')
         time.sleep(interval)
 
+threading.Thread(target=keepAlive, daemon=True).start()
+
 if __name__ == '__main__':
-    keepAlive()
+    app.run(host='0.0.0.0', port=5000)
